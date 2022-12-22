@@ -63,7 +63,7 @@ namespace wpf_window_ex
     public class PriorityLevelToFormatted : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) 
-            => $"Level {value}";
+            => $"Level {(int)value}";
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
             throw new NotImplementedException("Unused");
     }

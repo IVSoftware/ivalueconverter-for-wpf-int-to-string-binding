@@ -1,6 +1,10 @@
-Your question is **When to use an enumerated in C#* and one thing to consider is whether assigning a "Human-Readable" value provides added value. One might ask if it's worth it in this case to enumberate `PriorityLevel.LEVEL1` if it's just going to be 1 anyway.
+Your question is **When to use an enumerated in C#*. One way to look at it is asking  whether assigning a human-readable alias for a value provides some kind of benefit. 
 
-Your question mentions that you have a binding to a UI element, and your goal is to display (for example) the values of 1, 2, 3 as "Level 1", "Level 2", and "Level 3" in response to changes in the `PriorityLevel` property. 
+Your question states that you have a binding of the `PriorityLevel` (expressed as an enum or possibly just an int) to a UI element in the XAML.
+
+> My problem is when I show that property in the interface (**with a binding in the XAML**), it appears as (obviously) "LEVEL1" or "LEVEL2" or "LEVEL3". I'm interested in knowing how to display "LEVEL 1" (with a space) instead of displaying "LEVEL1".
+
+, and your goal is to display (for example) the values of 1, 2, 3 as "Level 1", "Level 2", and "Level 3" in response to changes in the `PriorityLevel` property. 
 
 One approach is to make an implementation of `IValueConverter` class:
 
