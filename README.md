@@ -1,23 +1,22 @@
-Your question is **When to use an enumerated in C#*. One way to look at it is asking  whether assigning a human-readable alias for a value provides some kind of benefit. 
+Your question is **When to use an enumerated in C#** and one way to look at this is asking whether assigning a human-readable alias for a value provides some kind of benefit (or not). 
 
 Your question states that you have a binding of the `PriorityLevel` (expressed as an enum or possibly just an int) to a UI element in the XAML.
 
 > My problem is when I show that property in the interface (**with a binding in the XAML**), it appears as (obviously) "LEVEL1" or "LEVEL2" or "LEVEL3". I'm interested in knowing how to display "LEVEL 1" (with a space) instead of displaying "LEVEL1".
 
-, and your goal is to display (for example) the values of 1, 2, 3 as "Level 1", "Level 2", and "Level 3" in response to changes in the `PriorityLevel` property. 
+As I understand it, your goal is to display (for example) the values of 1, 2, 3 as "Level 1", "Level 2", and "Level 3" in response to changes in the `PriorityLevel` property. One xaml-friendly approach that will work with either an `int` _or_ an `enum`is to make an implementation of `IValueConverter` class and invoke it in the xaml as `Text="{Binding Path=PriorityLevel, Converter={StaticResource PriorityLevelConverter}}"`.
 
-One approach is to make an implementation of `IValueConverter` class:
-
-    // Returns a formatted version of level, which can be an int or an enum
+    // Returns a formatted version of PriorityLevel.
+    // Works for EITHER int or enum
     public class PriorityLevelToFormatted : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) 
-            => $"Level {value}";
+            => $"Level {(int)value}";
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
             throw new NotImplementedException("Unused");
     }
 
-This converter can be invoked in the xaml as Text="{Binding Path=PriorityLevel, Converter={StaticResource PriorityLevelConverter}}"
+I [tested](https://github.com/IVSoftware/ivalueconverter-for-wpf-int-to-string-binding.git) this answer with a minimal WPF form that handles a button click by advancing the `PriorityLevel`.
 
     <iv:Window x:Class="wpf_window_ex.MainWindow"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -54,3 +53,8 @@ This converter can be invoked in the xaml as Text="{Binding Path=PriorityLevel, 
             </Button>
         </Grid>
     </iv:Window>
+
+[![click response][1]][1]
+
+
+  [1]: https://i.stack.imgur.com/yvX1C.png
