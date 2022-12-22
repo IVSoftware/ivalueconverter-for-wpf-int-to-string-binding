@@ -20,6 +20,12 @@ namespace wpf_window_ex
             DataContext = new Bindings();
         }
     }
+    public enum PriorityLevel
+    {
+        LEVEL1 = 1,
+        LEVEL2 = 2,
+        LEVEL3 = 3
+    }
 
     internal class Bindings : INotifyPropertyChanged
     {
@@ -27,8 +33,8 @@ namespace wpf_window_ex
         {
             AdvancePriorityCommand = new Command(OnAdvancePriority);
         }
-        int _PriorityLevel = 1;
-        public int PriorityLevel
+        PriorityLevel _PriorityLevel = PriorityLevel.LEVEL1;
+        public PriorityLevel PriorityLevel
         {
             get => _PriorityLevel;
             set
@@ -43,14 +49,15 @@ namespace wpf_window_ex
         public ICommand AdvancePriorityCommand { get; private set; }
         private void OnAdvancePriority(object o)
         {
-            // Advance to 2, then to three, then wrap around to 1
-            if(PriorityLevel == 3)
+            switch (PriorityLevel)
             {
-                PriorityLevel = 1;
-            }
-            else
-            {
-                PriorityLevel++;
+                case PriorityLevel.LEVEL1: 
+                case PriorityLevel.LEVEL2:
+                    PriorityLevel++;
+                    break;
+                case PriorityLevel.LEVEL3:
+                    PriorityLevel = PriorityLevel.LEVEL1;
+                    break;
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -59,7 +66,8 @@ namespace wpf_window_ex
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-    // Returns a formatted version of level, which can be an int or an enum
+    // Returns a formatted version of PriorityLevel.
+    // Works for EITHER int or enum
     public class PriorityLevelToFormatted : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) 
