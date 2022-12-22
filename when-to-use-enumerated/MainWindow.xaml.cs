@@ -27,15 +27,15 @@ namespace wpf_window_ex
         {
             AdvancePriorityCommand = new Command(OnAdvancePriority);
         }
-        int _PriorityLevel = 1;
-        public int PriorityLevel
+        int _pLevel = 1;
+        public int PLevel
         {
-            get => _PriorityLevel;
+            get => _pLevel;
             set
             {
-                if (!Equals(_PriorityLevel, value))
+                if (!Equals(_pLevel, value))
                 {
-                    _PriorityLevel = value;
+                    _pLevel = value;
                     OnPropertyChanged();
                 }
             }
@@ -44,13 +44,13 @@ namespace wpf_window_ex
         private void OnAdvancePriority(object o)
         {
             // Advance to 2, then to three, then wrap around to 1
-            if(PriorityLevel == 3)
+            if(PLevel == 3)
             {
-                PriorityLevel = 1;
+                PLevel = 1;
             }
             else
             {
-                PriorityLevel++;
+                PLevel++;
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -64,6 +64,13 @@ namespace wpf_window_ex
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) 
             => $"Level {(int)value}";
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+            throw new NotImplementedException("Unused");
+    }
+    public class PriorityLevelToVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            => (int)value == 1 ? Visibility.Hidden : Visibility.Visible;
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
             throw new NotImplementedException("Unused");
     }

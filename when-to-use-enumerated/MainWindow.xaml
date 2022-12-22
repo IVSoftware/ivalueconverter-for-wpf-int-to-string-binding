@@ -9,26 +9,35 @@
         Title="Main Window" Height="200" Width="300" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <local:PriorityLevelToFormatted x:Key="PriorityLevelConverter"/>
+        <local:PriorityLevelToVisibility x:Key="PriorityLevelToHyper"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock 
-            Name ="textLevel"
-            Text="{Binding Path=PriorityLevel, Converter={StaticResource PriorityLevelConverter}}"
+            Visibility="{Binding Path=PLevel, Converter={StaticResource PriorityLevelToHyper}}"
+            Text="Hyper Enabled"
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
+            Background="LightGreen"
             Grid.Row="1"/>
+        <TextBlock 
+            Name ="textLevel"
+            Text="{Binding Path=PLevel, Converter={StaticResource PriorityLevelConverter}}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Grid.Row="2"/>
         <Button
             Command="{Binding AdvancePriorityCommand}"
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             Width="150"
-            Grid.Row="2">
+            Grid.Row="3">
             <TextBlock>Advance Level</TextBlock>
         </Button>
     </Grid>
